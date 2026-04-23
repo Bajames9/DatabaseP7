@@ -33,19 +33,19 @@ public class InputManager {
 
             switch (input[0].toLowerCase()) {
 
-                case "/help":
+                case "help":
                     command.help();
                     break;
-                case "/new":
+                case "new":
                     command.newGame(input);
                     break;
-                case "/move":
+                case "move":
                     command.move(input);
                     break;
-                case "/grab":
+                case "grab":
                     command.grab(input);
                     break;
-                case "/drop":
+                case "drop":
                     command.drop(input);
                     break;
 

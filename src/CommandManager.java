@@ -20,16 +20,16 @@ public class CommandManager {
 
 
         System.out.println("\n");
-        System.out.println("/new [Username] [Name]");
+        System.out.println("new [Username] [Name]");
         System.out.println("Note: Starts a new game and logs in as User using Username and Player Name");
         System.out.println("\n");
-        System.out.println("/move [room]");
+        System.out.println("move [room]");
         System.out.println("Note: moves logged in player to a new room");
         System.out.println("\n");
-        System.out.println("/grab [TreasureID | TreasureName]");
+        System.out.println("grab [TreasureID | TreasureName]");
         System.out.println("Note: grabs a treasure from current room");
         System.out.println("\n");
-        System.out.println("/drop [TreasureID | TreasureName]");
+        System.out.println("drop [TreasureID | TreasureName]");
         System.out.println("Note: drops a Treasure in the current room");
 
 
@@ -146,6 +146,11 @@ public class CommandManager {
     }
 
     public void displayGameState() {
+
+        if(explorer == null){
+            System.out.println("game not started");
+            return;
+        }
 
         explorer = db.updateExplorer(explorer);
         ArrayList<Treasure> explorerBag = db.getTreasuresForExplorer(explorer);
