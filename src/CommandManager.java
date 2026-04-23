@@ -20,16 +20,16 @@ public class CommandManager {
 
 
         System.out.println("\n");
-        System.out.println("/new [Username] [Name]");
+        System.out.println("new [Username] [Name]");
         System.out.println("Note: Starts a new game and logs in as User using Username and Player Name");
         System.out.println("\n");
-        System.out.println("/move [room]");
+        System.out.println("move [room]");
         System.out.println("Note: moves logged in player to a new room");
         System.out.println("\n");
-        System.out.println("/grab [TreasureID | TreasureName]");
+        System.out.println("grab [TreasureID | TreasureName]");
         System.out.println("Note: grabs a treasure from current room");
         System.out.println("\n");
-        System.out.println("/drop [TreasureID | TreasureName]");
+        System.out.println("drop [TreasureID | TreasureName]");
         System.out.println("Note: drops a Treasure in the current room");
 
 
@@ -58,14 +58,14 @@ public class CommandManager {
     }
 
     public void move(String[] input){
-        /*
+
         if (explorer == null){
             System.out.println("game not started");
             return;
         }
-        if (input.length < 3) //change to lenght of id of room i guess it 3 
+        if (input.length != 2) //change to lenght of id of room i guess it 3
         {
-            System.out.println("error missing room identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         int roomId = Integer.parseInt(input[1]);
@@ -84,20 +84,25 @@ public class CommandManager {
             System.out.println("error moving to room");
         }
 
-        */
+
 
     }
 
     public void grab(String[] input){
-        /*int tresId = Integer.parseInt(input[1]);
+        int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
             return;
         }
-        if (input.length < 4) //change to lenght of id of treasure 
+
+        /*
+        * changed check to avoid errors
+        *
+        * */
+        if (input.length != 2) //change to lenght of id of treasure
          {
-            System.out.println("error missing treasure identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         
@@ -110,19 +115,19 @@ public class CommandManager {
         catch (Exception e){
             System.out.println("error grabbing treasure");
         }
-        */
+
     }
 
     public void drop(String[] input){
-        /*int tresId = Integer.parseInt(input[1]);
+        int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
             return;
         }
-        if (input.length < 4) //change to lenght of id of treasure 
+        if (input.length != 2) //change to lenght of id of treasure
          {
-            System.out.println("error missing treasure identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         
@@ -136,11 +141,16 @@ public class CommandManager {
         catch (Exception e){
             System.out.println("error dropping treasure");
          }
-         */
+
 
     }
 
     public void displayGameState() {
+
+        if(explorer == null){
+            System.out.println("game not started");
+            return;
+        }
 
         explorer = db.updateExplorer(explorer);
         ArrayList<Treasure> explorerBag = db.getTreasuresForExplorer(explorer);
