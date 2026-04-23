@@ -58,7 +58,7 @@ public class CommandManager {
     }
 
     public void move(String[] input){
-        /*
+
         if (explorer == null){
             System.out.println("game not started");
             return;
@@ -84,20 +84,25 @@ public class CommandManager {
             System.out.println("error moving to room");
         }
 
-        */
+
 
     }
 
     public void grab(String[] input){
-        /*int tresId = Integer.parseInt(input[1]);
+        int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
             return;
         }
-        if (input.length < 4) //change to lenght of id of treasure 
+
+        /*
+        * changed check to avoid errors
+        *
+        * */
+        if (input.length != 2) //change to lenght of id of treasure
          {
-            System.out.println("error missing treasure identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         
@@ -110,19 +115,19 @@ public class CommandManager {
         catch (Exception e){
             System.out.println("error grabbing treasure");
         }
-        */
+
     }
 
     public void drop(String[] input){
-        /*int tresId = Integer.parseInt(input[1]);
+        int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
             return;
         }
-        if (input.length < 4) //change to lenght of id of treasure 
+        if (input.length != 2) //change to lenght of id of treasure
          {
-            System.out.println("error missing treasure identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         
@@ -136,7 +141,7 @@ public class CommandManager {
         catch (Exception e){
             System.out.println("error dropping treasure");
          }
-         */
+
 
     }
 
