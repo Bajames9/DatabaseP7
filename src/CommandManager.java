@@ -58,14 +58,85 @@ public class CommandManager {
     }
 
     public void move(String[] input){
+        /*
+        if (explorer == null){
+            System.out.println("game not started");
+            return;
+        }
+        if (input.length < 3) //change to lenght of id of room i guess it 3 
+        {
+            System.out.println("error missing room identifier");
+            return;
+        }
+        int roomId = Integer.parseInt(input[1]);
+        ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer.getRoomId());
+        if (connectedRooms == null || !connectedRooms.contains(roomId)){
+            System.out.println("error room not connected to current room");
+            return;
+        }
+        try{
+            db.Move(explorer, roomId);
+            explorer = db.updateExplorer(explorer);
+            //System.out.println("moved to room "+ roomId);
+            displayGameState();
+        }
+        catch (Exception e){
+            System.out.println("error moving to room");
+        }
+
+        */
 
     }
 
     public void grab(String[] input){
+        /*int tresId = Integer.parseInt(input[1]);
 
+        if(explorer == null){
+            System.out.println("game not started");
+            return;
+        }
+        if (input.length < 4) //change to lenght of id of treasure 
+         {
+            System.out.println("error missing treasure identifier");
+            return;
+        }
+        
+       
+        try{
+        db.Grab(explorer, tresId);
+        explorer = db.updateExplorer(explorer);
+        displayGameState();
+    }
+        catch (Exception e){
+            System.out.println("error grabbing treasure");
+        }
+        */
     }
 
     public void drop(String[] input){
+        /*int tresId = Integer.parseInt(input[1]);
+
+        if(explorer == null){
+            System.out.println("game not started");
+            return;
+        }
+        if (input.length < 4) //change to lenght of id of treasure 
+         {
+            System.out.println("error missing treasure identifier");
+            return;
+        }
+        
+       
+        try{
+        db.Drop(explorer, tresId);
+        explorer = db.updateExplorer(explorer);
+        //System.out.println("dropped treasure "+ tresId);
+        displayGameState();
+    }
+        catch (Exception e){
+            System.out.println("error dropping treasure");
+         }
+         */
 
     }
 

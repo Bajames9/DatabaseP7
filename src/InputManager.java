@@ -20,6 +20,14 @@ public class InputManager {
         while (true) {
             System.out.print("> ");
             String[] input = scanner.nextLine().trim().split(" ");
+            /* if input is empty, skip to next iteration to avoid errors 
+            fix
+            String line = scanner.nextLine().trim();
+            if (line.isEmpty()) {
+                continue;
+            }
+            String[] input = line.split("\\s+");
+            */
 
 
 
