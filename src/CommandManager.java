@@ -63,9 +63,9 @@ public class CommandManager {
             System.out.println("game not started");
             return;
         }
-        if (input.length < 3) //change to lenght of id of room i guess it 3 
+        if (input.length != 2) //change to lenght of id of room i guess it 3
         {
-            System.out.println("error missing room identifier");
+            System.out.println("error invalid cmd structure");
             return;
         }
         int roomId = Integer.parseInt(input[1]);
