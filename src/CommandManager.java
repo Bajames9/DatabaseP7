@@ -81,7 +81,7 @@ public class CommandManager {
             displayGameState();
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("error moving to room");
         }
 
 
@@ -113,7 +113,7 @@ public class CommandManager {
         displayGameState();
     }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("error grabbing treasure");
         }
 
     }
@@ -139,7 +139,7 @@ public class CommandManager {
         displayGameState();
     }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("error dropping treasure");
          }
 
 
