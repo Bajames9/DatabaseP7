@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.Scanner;
-
+/*
 public class DBConnection {
 
     DBConnection(){
@@ -111,3 +111,5 @@ public class Game {
         }
     }
 }
+
+ */
