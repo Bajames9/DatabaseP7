@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnection {
 
@@ -180,6 +181,119 @@ public class DBConnection {
     }
 
 
+    public ArrayList<Treasure> getTreasuresForExplorer(Explorer explorer) {
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM TREASURES WHERE EXPID = ?");
+
+            ps.setInt(1,explorer.getExpID());
 
 
+            ResultSet rs = ps.executeQuery();
+
+
+            ArrayList<Treasure> bag = new ArrayList<>();
+            while (rs.next()) {
+
+                bag.add(new Treasure(
+                          rs.getInt("TRESID")
+                        , rs.getString("NAME")
+                        , rs.getInt("EXPID")
+                        , rs.getInt("NPCID")
+                        , rs.getInt("ROOMID")
+                        , rs.getString("DESCRIPTION")
+                        , rs.getInt("VALUE")
+                        , rs.getInt("WEIGHT")
+
+                ));
+
+
+
+            }
+
+            if (!bag.isEmpty()){
+                return bag;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error with get Treasures bag command connection layer");
+            throw new RuntimeException(e);
+        }
+
+        return null;
+
+    }
+
+    public ArrayList<Treasure> getTreasuresForRoom(int roomId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM TREASURES WHERE ROOMID = ?");
+
+            ps.setInt(1,roomId);
+
+
+            ResultSet rs = ps.executeQuery();
+
+
+            ArrayList<Treasure> bag = new ArrayList<>();
+            while (rs.next()) {
+
+
+                bag.add(new Treasure(
+                        rs.getInt("TRESID")
+                        , rs.getString("NAME")
+                        , rs.getInt("EXPID")
+                        , rs.getInt("NPCID")
+                        , rs.getInt("ROOMID")
+                        , rs.getString("DESCRIPTION")
+                        , rs.getInt("VALUE")
+                        , rs.getInt("WEIGHT")
+
+                ));
+
+
+
+            }
+
+            if (!bag.isEmpty()){
+                return bag;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error with get room Treasures command connection layer");
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<Integer> getConnectedRooms(int roomId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT ROOM2 FROM CONNECTIONS WHERE ROOM1 = ?");
+
+            ps.setInt(1,roomId);
+
+
+            ResultSet rs = ps.executeQuery();
+
+
+            ArrayList<Integer> rooms = new ArrayList<>();
+            while (rs.next()) {
+
+
+                rooms.add(rs.getInt("ROOM2"));
+
+
+            }
+
+            if (!rooms.isEmpty()){
+                return rooms;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error with get connected rooms command connection layer");
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 }
