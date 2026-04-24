@@ -130,7 +130,7 @@ public class DBConnection {
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }
@@ -148,10 +148,11 @@ public class DBConnection {
 
             cs.execute();
 
+        } catch (SQLException e) {
+            if (e.getErrorCode() == (20003) | e.getErrorCode() == 1403) {
+                System.out.println("I don't see that around here");
+            }
 
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
 
     }
@@ -160,8 +161,28 @@ public class DBConnection {
     public void Drop (Explorer explorer, int tresID)
     {
 
-
         try {
+
+            //we need to make sure the item is actually in the room its in, right now I can force move items to me.
+
+            PreparedStatement find = conn.prepareStatement("SELECT expID FROM TREASURES WHERE TRESID = ?");
+
+            find.setInt(1, tresID); 
+
+            ResultSet found = find.executeQuery(); 
+            
+            if (found.next()) {
+                int tresEXPID = found.getInt("EXPID"); 
+                if (tresEXPID != explorer.getExpID()) {
+                    System.out.println("You don't have that item"); 
+                    return; 
+                }
+            }
+            if (!found.next()) {
+                System.out.println("You were imagining that item"); 
+                return; 
+            }
+
             PreparedStatement ps = conn.prepareStatement(
                     "UPDATE TREASURES SET ROOMID = ?, EXPID = null WHERE TRESID = ?");
 
@@ -170,14 +191,34 @@ public class DBConnection {
 
             ps.executeUpdate();
 
+            //need to get the treasure id. so we can update the weight from the explorer. 
+            PreparedStatement get = conn.prepareStatement("SELECT WEIGHT FROM TREASURES WHERE TRESID = ?");
+            
+            get.setInt(1, tresID); 
 
+            ResultSet rs = get.executeQuery(); 
+
+            int weight = 0; 
+
+            System.out.println(tresID); 
+            if (rs.next()) weight = rs.getInt("WEIGHT"); 
+            else System.out.println("ERROR IN QUERY"); 
+   
+
+            PreparedStatement ps2 = conn.prepareStatement(
+                "UPDATE Explorers SET BAG_WT = ?, BAG_CNT = ? WHERE EXPID = ?"
+            );
+
+
+            ps2.setInt(1, explorer.getBagWt()- weight);
+            ps2.setInt(2, explorer.getBag_cnt()-1);
+            ps2.setInt(3, explorer.getExpID()); 
+
+            ps2.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println("Error with drop command connection layer");
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
-
-
     }
 
 

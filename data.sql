@@ -8,7 +8,8 @@ Insert Into Rooms(roomid, Name, Description)
 VALUES (105, 'Davis 225', 'Networking Lab');
 
 Insert Into Rooms(roomid, Name, Description)
-VALUES (108, 'Dalton', 'A loud, raucous dining hall');
+VALUES (108, 'Dalton Dining
+', 'A loud, raucous dining hall');
 
 Insert Into Rooms(roomid, Name, Description)
 VALUES (109, 'CR 142', 'A state of the art cyber security lab');
