@@ -5,6 +5,10 @@ create or replace TRIGGER "expCurRoomCheckTreasureGrab"
         connection Explorers.room_ID%type;
     BEGIN
 
+        if :NEW.EXPID = :OLD.EXPID THEN
+            RAISE_APPLICATION_ERROR(-20011, 'Already Have item');
+        END IF; 
+
         IF :NEW.EXPID iS NULL THEN
             RETURN;
         END IF; 

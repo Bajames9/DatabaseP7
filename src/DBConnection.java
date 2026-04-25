@@ -149,8 +149,11 @@ public class DBConnection {
             cs.execute();
 
         } catch (SQLException e) {
-            if (e.getErrorCode() == (20003) | e.getErrorCode() == 1403) {
+            if (e.getErrorCode() == 20003 | e.getErrorCode() == 1403) {
                 System.out.println("I don't see that around here");
+            }
+            else if (e.getErrorCode() == 20011 ) {
+                System.out.println("You already have that item!"); 
             }
 
         }

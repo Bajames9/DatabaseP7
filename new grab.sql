@@ -11,6 +11,8 @@ IS
         nonExistantTreaure Exception;
         PRAGMA EXCEPTION_INIT(nonExistantTreaure, -20010); 
         tresWeight TREASURES.WEIGHT%TYPE; 
+        alreadyHaveItem Exception;
+        PRAGMA EXCEPTION_INIT(alreadyHaveItem, -20011);
 
     BEGIN
 
@@ -40,10 +42,6 @@ IS
             WHERE TRESID = tres_ID;
         end if;
 
-
-
-
-
     EXCEPTION
     WHEN roomMismatchEXP THEN
         DBMS_OUTPUT.PUT_LINE('Error: Item is not in same room as explorer');
@@ -51,6 +49,10 @@ IS
 
     WHEN nonExistantTreaure THEN
         DBMS_OUTPUT.PUT_LINE('Treasure does not exist');
+        RAISE;
+        
+    WHEN alreadyhaveItem THEN
+        DBMS_OUTPUT.PUT_LINE('You already have that item');
         RAISE;
 
     WHEN OTHERS THEN
