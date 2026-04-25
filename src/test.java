@@ -1,14 +1,46 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class test
-{
-    Explorer explorer1;
+public class test {
+    static CommandManager cm = new CommandManager(); 
+    static DBConnection db = new DBConnection();
+
+
+  public static void main(String[] args) {
     DBConnection db = new DBConnection();
 
-    //Create
+    String[] fail = {"new", "Kade", "NotKade"};
+    String[] success = {"new", "Kade", "Kade"}; 
+    testNew(fail); 
+    testNew(success); 
+  }
+
+    public static void testNew(String[] input) {
+
+        
+        Explorer explorer = null; 
+
+        if (input.length >= 3)
+        {
+            explorer = db.getExplorer(input[1],input[2]);
+
+        }
+        if (explorer != null)
+        {
+            System.out.println(explorer.getName() + " Pass");
+            cm.displayGameState();
+
+        }
+        else {
+            System.out.println("Fail");
+        }
+
+    }
+
+
+    /*Create
     // name >= 3 -Pass
-     public void testGamePass()
+     public static void testGamePass()
      {
 
         String[] input = {"new", "Joseph", "troll1"}; 
@@ -30,7 +62,7 @@ public class test
     }
         
         
-    public void testGameFail1()
+    public static void testGameFail1()
     {
         String[] input = {"new", "Tom"};
          if (input.length >= 3)
@@ -77,8 +109,7 @@ public class test
     //Drop treasure that is in inventory - Pass
     //-Drop treasure that isnt in inventory - Fail
     
-
-
+*/
 
 
 
