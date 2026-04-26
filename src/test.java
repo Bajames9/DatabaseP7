@@ -24,6 +24,8 @@ public class test {
         testMove(testP);
 
 
+        String[] grabP = {"grab", "105"};
+        testGrab(grabP);
 
 
 
@@ -73,13 +75,14 @@ public class test {
 
     public static void testMove( String[] command) {
 
+
+        // used to capture system.out from function
         PrintStream originalOut = System.out;
 
         System.setOut(new PrintStream(new OutputStream() {
             public void write(int b) {
             }
         }));
-
 
 
         String[] returnCMD = {"move","101"};
@@ -93,8 +96,6 @@ public class test {
             System.setOut(originalOut);
             System.out.println("Fail");
         }
-
-
 
 
     }
@@ -133,6 +134,35 @@ public class test {
 
      */
 
+    public static void testGrab( String[] command) {
+
+
+        // used to capture system.out from function
+        PrintStream originalOut = System.out;
+
+        System.setOut(new PrintStream(new OutputStream() {
+            public void write(int b) {
+            }
+        }));
+
+
+        String[] returnCMD = {"drop","105"};
+
+        // changed cmds to grab from move
+        if( cm.grab(command)){
+            cm.drop(returnCMD);
+            System.setOut(originalOut);
+            System.out.println("Pass");
+
+        } else {
+            System.setOut(originalOut);
+            System.out.println("Fail");
+        }
+
+
+    }
+
+    /*
     public static void testGrab(String[] input) {
         Explorer explorer2 = null;
         int tresId = Integer.parseInt(input[1]);
@@ -142,10 +172,7 @@ public class test {
             return;
         }
 
-        /*
-         * changed check to avoid errors
-         *
-         * */
+
         if (input.length != 2) //change to lenght of id of treasure
         {
             System.out.println("error invalid cmd structure");
@@ -163,6 +190,7 @@ public class test {
         }
 
     }
+    */
 
 
     public static void testDrop(String[] input) {

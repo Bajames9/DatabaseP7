@@ -90,12 +90,12 @@ public class CommandManager {
 
     }
 
-    public void grab(String[] input){
+    public boolean grab(String[] input){
         int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
-            return;
+            return false;
         }
 
         /*
@@ -105,7 +105,7 @@ public class CommandManager {
         if (input.length != 2) //change to lenght of id of treasure
          {
             System.out.println("error invalid cmd structure");
-            return;
+             return false;
         }
         
        
@@ -113,11 +113,13 @@ public class CommandManager {
         db.Grab(explorer, tresId);
         explorer = db.updateExplorer(explorer);
         displayGameState();
+        return true;
     }
         catch (Exception e){
             System.out.println("error grabbing treasure");
         }
 
+        return false;
     }
 
     public void drop(String[] input){
