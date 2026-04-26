@@ -57,33 +57,35 @@ public class CommandManager {
 
     }
 
-    public void move(String[] input){
+    public boolean move(String[] input){
 
         if (explorer == null){
             System.out.println("game not started");
-            return;
+            return false;
         }
         if (input.length != 2) //change to lenght of id of room i guess it 3
         {
             System.out.println("error invalid cmd structure");
-            return;
+            return false;
         }
         int roomId = Integer.parseInt(input[1]);
         ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer.getRoomId());
         if (connectedRooms == null || !connectedRooms.contains(roomId)){
             System.out.println("error room not connected to current room");
-            return;
+            return false;
         }
         try{
             db.Move(explorer, roomId);
             explorer = db.updateExplorer(explorer);
             //System.out.println("moved to room "+ roomId);
             displayGameState();
+            return true;
         }
         catch (Exception e){
             System.out.println("error moving to room");
         }
 
+        return false;
 
 
     }
