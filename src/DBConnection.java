@@ -157,6 +157,8 @@ public class DBConnection {
                 System.out.println("You already have that item!");
                 return false;
             }
+            else if (e.getMessage().contains("BAGWEIGHTCK")) System.out.println("You cannot carry that much!");
+            else if (e.getMessage().contains("BAGCOUNTCK")) System.out.println("You do not have enough space!"); 
 
         }
 

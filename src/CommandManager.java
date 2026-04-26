@@ -164,6 +164,8 @@ public class CommandManager {
         ArrayList<Treasure> roomTreasures = db.getTreasuresForRoom(explorer.getRoomId());
         ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer.getRoomId());
         System.out.println(explorer.getName()+" is in room (" + explorer.getRoomId()+")");
+        System.out.println("Bag Weight: " + explorer.getBagWt() + " Bag Count: " + explorer.getBag_cnt()); 
+        
         System.out.println("\tTreasures");
         if (explorerBag != null) {
             for (Treasure t : explorerBag) {
