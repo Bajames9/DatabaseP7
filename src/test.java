@@ -85,7 +85,7 @@ public class test {
         }));
 
 
-        String[] returnCMD = {"move","101"};
+        String[] returnCMD = {"move",cm.explorer.getRoomId() + ""};
 
         if( cm.move(command)){
             cm.move(returnCMD);
@@ -146,7 +146,7 @@ public class test {
         }));
 
 
-        String[] returnCMD = {"drop","105"};
+        String[] returnCMD = {"drop",command[1]};
 
         // changed cmds to grab from move
         if( cm.grab(command)){
