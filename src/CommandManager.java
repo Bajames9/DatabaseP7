@@ -35,7 +35,7 @@ public class CommandManager {
 
     }
 
-    public void newGame(String[] input){
+    public boolean newGame(String[] input){
 
         explorer = null;
         if (input.length >= 3)
@@ -47,6 +47,7 @@ public class CommandManager {
         {
             System.out.println(explorer.getName() + " is ready to play");
             displayGameState();
+            return true;
 
         }
         else {
@@ -54,7 +55,7 @@ public class CommandManager {
         }
 
 
-
+        return false;
     }
 
     public boolean move(String[] input){
@@ -122,17 +123,17 @@ public class CommandManager {
         return false;
     }
 
-    public void drop(String[] input){
+    public boolean drop(String[] input){
         int tresId = Integer.parseInt(input[1]);
 
         if(explorer == null){
             System.out.println("game not started");
-            return;
+            return false;
         }
         if (input.length != 2) //change to lenght of id of treasure
          {
             System.out.println("error invalid cmd structure");
-            return;
+             return false;
         }
         
        
@@ -141,12 +142,14 @@ public class CommandManager {
         explorer = db.updateExplorer(explorer);
         //System.out.println("dropped treasure "+ tresId);
         displayGameState();
+        return true;
     }
         catch (Exception e){
             System.out.println("error dropping treasure");
          }
 
 
+        return false;
     }
 
     public void displayGameState() {
