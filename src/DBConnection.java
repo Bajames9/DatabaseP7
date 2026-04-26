@@ -137,7 +137,7 @@ public class DBConnection {
 
 
     // grabs a treasure
-    public void Grab (Explorer explorer, int tresID)
+    public boolean Grab (Explorer explorer, int tresID)
     {
         try {
 
@@ -151,17 +151,21 @@ public class DBConnection {
         } catch (SQLException e) {
             if (e.getErrorCode() == 20003 | e.getErrorCode() == 1403) {
                 System.out.println("I don't see that around here");
+                return false;
             }
             else if (e.getErrorCode() == 20011 ) {
-                System.out.println("You already have that item!"); 
+                System.out.println("You already have that item!");
+                return false;
             }
 
         }
 
+        return true;
+
     }
 
     // drops a treasure in current room
-    public void Drop (Explorer explorer, int tresID)
+    public boolean Drop (Explorer explorer, int tresID)
     {
 
         try {
@@ -177,13 +181,13 @@ public class DBConnection {
             if (found.next()) {
                 int tresEXPID = found.getInt("EXPID"); 
                 if (tresEXPID != explorer.getExpID()) {
-                    System.out.println("You don't have that item"); 
-                    return; 
+                    System.out.println("You don't have that item");
+                    return false;
                 }
             }
             else if(!found.next()) {
-                System.out.println("You were imagining that item"); 
-                return; 
+                System.out.println("You were imagining that item");
+                return false;
             }
   
             PreparedStatement ps = conn.prepareStatement(
@@ -205,7 +209,10 @@ public class DBConnection {
 
             System.out.println(tresID); 
             if (rs.next()) weight = rs.getInt("WEIGHT"); 
-            else System.out.println("ERROR IN QUERY"); 
+            else {
+                System.out.println("ERROR IN QUERY");
+                return false;
+            }
    
 
             PreparedStatement ps2 = conn.prepareStatement(
@@ -219,9 +226,13 @@ public class DBConnection {
 
             ps2.executeUpdate();
 
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
 

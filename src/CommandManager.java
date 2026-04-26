@@ -111,10 +111,10 @@ public class CommandManager {
         
        
         try{
-        db.Grab(explorer, tresId);
+        boolean success = db.Grab(explorer, tresId);
         explorer = db.updateExplorer(explorer);
         displayGameState();
-        return true;
+        return success;
     }
         catch (Exception e){
             System.out.println("error grabbing treasure");
@@ -138,11 +138,11 @@ public class CommandManager {
         
        
         try{
-        db.Drop(explorer, tresId);
+        boolean success = db.Drop(explorer, tresId);
         explorer = db.updateExplorer(explorer);
         //System.out.println("dropped treasure "+ tresId);
         displayGameState();
-        return true;
+        return success;
     }
         catch (Exception e){
             System.out.println("error dropping treasure");

@@ -10,8 +10,20 @@ public class test {
 
     public static void main(String[] args) {
 
-        Explorer testExplorer = db.getExplorer("Bailey","Bailey");
-        cm.explorer = testExplorer;
+
+        PrintStream originalOut = System.out;
+
+        PrintStream consumeOut = (new PrintStream(new OutputStream() {
+            public void write(int b) {
+            }
+        }));
+
+
+
+
+
+
+
         String[] failN = {"new", "Kade", "NotKade"};
         String[] successN = {"new", "Kade", "Kade"};
         testNew(failN);
@@ -19,8 +31,8 @@ public class test {
 
 
  
-        Explorer testExplorer1 = db.getExplorer("Kade","Kade");
-        cm.explorer = testExplorer1;
+        Explorer testExplorer = db.getExplorer("test","test");
+        cm.explorer = testExplorer;
         String[] failM = {"move","111"}; //Room that is not connected
         String[] failM2 = {"move","101"}; //Room the Explorer is already in
         String[] failM3 = {"move","555"}; //Room that doesnt Exist
@@ -30,20 +42,29 @@ public class test {
         testMove(failM3);
         testMove(successM);
 
-        Explorer testExplorer2 = db.getExplorer("Dan","Dan");
-        cm.explorer = testExplorer2;
+
         String[] failG = {"grab","500"}; // Treasure that is not in the room
-        String[] successG = {"grab","102"}; // Treasure that is in the room(its not we are in roomid 105 now, change when room 105 treasure id is found)
-        String[] failG2 = {"grab","102"}; // Treasure is not on the ground but in inventory already
+        String[] successG = {"grab","109"}; // Treasure that is in the room(its not we are in roomid 105 now, change when room 105 treasure id is found)
+        String[] failG2 = {"grab","109"}; // Treasure is not on the ground but in inventory already
         testGrab(failG);
-        testGrab(successM);
+        testGrab(successG);
+
+
+        System.setOut(consumeOut);
+        cm.grab(successG);
+        System.setOut(originalOut);
         testGrab(failG2);
 
-        Explorer testExplorer3 = db.getExplorer("Prem","Prem");
-        cm.explorer = testExplorer3;
+
+
         String[] failD = {"drop","500"}; // Treasure that the explorer doesnt hold
-        String[] successD = {"drop","102"}; //Treasure the explorer does hold
+        String[] successD = {"drop","109"}; //Treasure the explorer does hold
         testDrop(failD);
+
+        System.setOut(consumeOut);
+        cm.grab(successG);
+        System.setOut(originalOut);
+
         testDrop(successD);
 
         /*
@@ -168,10 +189,16 @@ public class test {
         // used to capture system.out from function
         PrintStream originalOut = System.out;
 
+
+
         System.setOut(new PrintStream(new OutputStream() {
             public void write(int b) {
             }
         }));
+
+
+
+
 
 
         String[] returnCMD = {"drop",command[1]};
@@ -179,7 +206,7 @@ public class test {
 
         // changed cmds to grab from move
         if( cm.grab(command)){
-            cm.grab(returnCMD);
+            cm.drop(returnCMD);
             System.setOut(originalOut);
             System.out.println("Pass");
 
