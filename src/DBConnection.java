@@ -340,4 +340,26 @@ public class DBConnection {
 
         return null;
     }
+    /*
+    public String TalkNpc(Explorer explorer, int npcId) throws SQLException 
+    {
+
+        String message = "";
+
+        CallableStatement rs= conn.prepareCall("{call talk_to_npc(?, ?, ?)}");
+
+        rs.setInt(1, explorer.getExpID());
+        rs.setInt(2, npcId);
+        rs.registerOutParameter(3, Types.VARCHAR);
+
+        rs.execute();
+
+        message = rs.getString(3);
+
+        rs.close();
+
+        return message;
+    }
+*/
+
 }

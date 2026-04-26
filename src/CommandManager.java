@@ -183,8 +183,34 @@ public class CommandManager {
 
 
     }
+    /*
+    public void talk(String[] input) {
 
+        if (explorer == null) {
+        System.out.println("game not started");
+        return;
+        }
+        Integer npcId = Integer.parseInt(input[1]);
 
+        if (npcId == null)
+        {
+        System.out.println("error missing npc id");
+        System.out.println("use talk [npcID]");
+        return;
+        }
+        try {
+        String npcResponse = db.TalkNpc(explorer, npcId);
+        System.out.println(npcResponse);
+
+        explorer = db.updateExplorer(explorer);
+        displayGameState();
+        }
+        catch (Exception e) {
+        System.out.println("error talking to npc");
+        }
+  
+    }
+*/
 
 
 

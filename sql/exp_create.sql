@@ -34,6 +34,19 @@ CREATE TABLE NPCs
 ,	CONSTRAINT FKRoomID FOREIGN KEY(RoomID) REFERENCES Rooms (roomID)
 );
 
+/* updated npc table for extra credit
+CREATE TABLE NPCs
+(
+	npcID	NUMBER(6,0)
+,	Type	VARCHAR2(50)
+,	RoomID	NUMBER(6,0)
+,job VARCHAR2(30) --added
+,description VARCHAR2(200) --added
+,	CONSTRAINT PKNpcID PRIMARY KEY(npcID)
+,	CONSTRAINT FKRoomID FOREIGN KEY(RoomID) REFERENCES Rooms (roomID)
+);
+*/
+
 CREATE SEQUENCE npc_seq
   START WITH     100
   INCREMENT BY   1
@@ -94,6 +107,18 @@ CREATE TABLE Treasures
 --	)
 
 );
+/*
+  CREATE TABLE NPC_STATE
+  (
+    expID NUMBER NOT NULL,
+    npcID NUMBER NOT NULL,
+    last_state VARCHAR2(30) DEFAULT 'not met',
+    quest_status VARCHAR2(30) DEFAULT 'not started',
+    talk_count NUMBER DEFAULT 0,
+ -- last_talked_at TIMESTAMP DEFAULT SYSTIMESTAMP, -- if needed 
+    PRIMARY KEY (expID, npcID)
+  );
+*/
 
 CREATE SEQUENCE treasures_seq
   START WITH     100
@@ -123,4 +148,8 @@ Create or Replace Trigger weightCountDefaultZeroTrigger
   END; 
   /
 
+
+/* 
+
+*/
   COMMIT; 
