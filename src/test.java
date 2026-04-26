@@ -1,4 +1,3 @@
-import java.sql.*;
 import java.util.ArrayList;
 
 public class test {
@@ -6,14 +5,34 @@ public class test {
     static DBConnection db = new DBConnection();
 
 
-  public static void main(String[] args) {
+public static void main(String[] args) 
+{
     DBConnection db = new DBConnection();
 
-    String[] fail = {"new", "Kade", "NotKade"};
-    String[] success = {"new", "Kade", "Kade"}; 
-    testNew(fail); 
-    testNew(success); 
-  }
+    String[] failN = {"new", "Kade", "NotKade"};
+    String[] successN = {"new", "Kade", "Kade"}; 
+    testNew(failN); 
+    testNew(successN); 
+    String[] failM = {"move 111"}; //Room that is not connected 
+    String[] failM2 = {"move 101"}; //Room the Explorer is already in
+    String[] failM3 = {"move 555"}; //Room that doesnt Exist
+    String[] successM = {"move 105"}; //Room that is connected
+    testMove(failM);
+    testMove(failM2);
+    testMove(failM3);
+    testMove(successM);
+    String[] failG = {"grab 500"}; // Treasure that is not in the room
+    String[] successG= {"grab 102"}; // Treasure that is in the room(its not we are in roomid 105 now, change when room 105 treasure id is found)
+    String[] failG2 = {"grab 102"}; // Treasure is not on the ground but in inventory already
+    testGrab(failG);
+    testGrab(successM);
+    testGrab(failG2);
+    String[] failD = {"drop 500"}; // Treasure that the explorer doesnt hold
+    String[] successD = {"drop 102"}; //Treasure the explorer does hold
+    testDrop(failD);
+    testDrop(successD);
+}
+
 
     public static void testNew(String[] input) {
 
@@ -35,6 +54,99 @@ public class test {
             System.out.println("Fail");
         }
 
+    }
+
+    public static void testMove(String[] input) 
+    {
+        Explorer explorer1 = null; 
+        if (explorer1 == null){
+            System.out.println("game not started");
+            return;
+        }
+        if (input.length != 2) //change to lenght of id of room i guess it 3
+        {
+            System.out.println("error invalid cmd structure");
+            return;
+        }
+        int roomId = Integer.parseInt(input[1]);
+        ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer1.getRoomId());
+        if (connectedRooms == null || !connectedRooms.contains(roomId)){
+            System.out.println("error room not connected to current room, Fail");
+            return;
+        }
+        try{
+            db.Move(explorer1, roomId);
+            explorer1 = db.updateExplorer(explorer1);
+            System.out.println("Pass ");
+            cm.displayGameState();
+        }
+        catch (Exception e){
+            System.out.println("error moving to room, Fail");
+        }
+
+    }
+
+    public static void testGrab(String[] input) 
+    {
+        Explorer explorer2 = null; 
+        int tresId = Integer.parseInt(input[1]);
+
+        if(explorer2 == null){
+            System.out.println("game not started");
+            return;
+        }
+
+        /*
+        * changed check to avoid errors
+        *
+        * */
+        if (input.length != 2) //change to lenght of id of treasure
+         {
+            System.out.println("error invalid cmd structure");
+            return;
+        }
+        
+       
+        try{
+        db.Grab(explorer2, tresId);
+        explorer2 = db.updateExplorer(explorer2);
+        System.out.println("Pass");
+        cm.displayGameState();
+    }
+        catch (Exception e){
+            System.out.println("error grabbing treasure, Fail");
+        }
+
+    }
+
+    }
+
+    public static void testDrop(String[] input) 
+    {
+        Explorer explorer3 = null;
+         int tresId = Integer.parseInt(input[1]);
+
+        if(explorer3 == null){
+            System.out.println("game not started");
+            return;
+        }
+        if (input.length != 2) //change to lenght of id of treasure
+         {
+            System.out.println("error invalid cmd structure");
+            return;
+        }
+        
+       
+        try{
+        db.Drop(explorer3, tresId);
+        explorer3 = db.updateExplorer(explorer3);
+        //System.out.println("dropped treasure "+ tresId);
+        System.out.println("Pass");
+        cm.displayGameState();
+    }
+        catch (Exception e){
+            System.out.println("error dropping treasure, Fail");
+         }
     }
 
 
@@ -113,8 +225,13 @@ public class test {
 
 
 
-
-
-
-
 }
+    
+
+
+
+
+
+
+
+
