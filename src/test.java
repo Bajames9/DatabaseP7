@@ -10,24 +10,41 @@ public class test {
 
     public static void main(String[] args) {
 
-/*
+        Explorer testExplorer = db.getExplorer("Bailey","Bailey");
+        cm.explorer = testExplorer;
         String[] failN = {"new", "Kade", "NotKade"};
         String[] successN = {"new", "Kade", "Kade"};
         testNew(failN);
         testNew(successN);
 
 
- */
-        Explorer testExplorer = db.getExplorer("Bailey","Bailey");
-        cm.explorer = testExplorer;
-        String[] testP = {"move", "109"};
-        testMove(testP);
+ 
+        Explorer testExplorer1 = db.getExplorer("Kade","Kade");
+        cm.explorer = testExplorer1;
+        String[] failM = {"move 111"}; //Room that is not connected
+        String[] failM2 = {"move 101"}; //Room the Explorer is already in
+        String[] failM3 = {"move 555"}; //Room that doesnt Exist
+        String[] successM = {"move 105"}; //Room that is connected
+        testMove(failM);
+        testMove(failM2);
+        testMove(failM3);
+        testMove(successM);
 
+        Explorer testExplorer2 = db.getExplorer("Dan","Dan");
+        cm.explorer = testExplorer2;
+        String[] failG = {"grab 500"}; // Treasure that is not in the room
+        String[] successG = {"grab 102"}; // Treasure that is in the room(its not we are in roomid 105 now, change when room 105 treasure id is found)
+        String[] failG2 = {"grab 102"}; // Treasure is not on the ground but in inventory already
+        testGrab(failG);
+        testGrab(successM);
+        testGrab(failG2);
 
-        String[] grabP = {"grab", "105"};
-        testGrab(grabP);
-
-
+        Explorer testExplorer3 = db.getExplorer("Prem","Prem");
+        cm.explorer = testExplorer3;
+         String[] failD = {"drop 500"}; // Treasure that the explorer doesnt hold
+        String[] successD = {"drop 102"}; //Treasure the explorer does hold
+        testDrop(failD);
+        testDrop(successD);
 
         /*
         String[] failM = {"move 111"}; //Room that is not connected
@@ -56,17 +73,24 @@ public class test {
     public static void testNew(String[] input) {
 
 
-        Explorer explorer = null;
+       // used to capture system.out from function
+        PrintStream originalOut = System.out;
 
-        if (input.length >= 3) {
-            explorer = db.getExplorer(input[1], input[2]);
+        System.setOut(new PrintStream(new OutputStream() {
+            public void write(int b) {
+            }
+        }));
 
-        }
-        if (explorer != null) {
-            System.out.println(explorer.getName() + " Pass");
-            cm.displayGameState();
+
+        
+
+        if( cm.move(command)){
+            cm.move(returnCMD);
+            System.setOut(originalOut);
+            System.out.println("Pass");
 
         } else {
+            System.setOut(originalOut);
             System.out.println("Fail");
         }
 
@@ -84,8 +108,11 @@ public class test {
             }
         }));
 
-
-        String[] returnCMD = {"move",cm.explorer.getRoomId() + ""};
+        
+        String[] returnCMD = {"move","111"};
+        String[] returnCMD = {"move","101"};
+        String[] returnCMD = {"move","555"};
+        String[] returnCMD = {"move","105"};
 
         if( cm.move(command)){
             cm.move(returnCMD);
@@ -146,11 +173,13 @@ public class test {
         }));
 
 
-        String[] returnCMD = {"drop",command[1]};
+        String[] returnCMD = {"grab","500"};
+        String[] returnCMD = {"grab","102"};
+        String[] returnCMD = {"grab","102"};
 
         // changed cmds to grab from move
         if( cm.grab(command)){
-            cm.drop(returnCMD);
+            cm.grab(returnCMD);
             System.setOut(originalOut);
             System.out.println("Pass");
 
@@ -193,31 +222,35 @@ public class test {
     */
 
 
-    public static void testDrop(String[] input) {
-        Explorer explorer3 = null;
-        int tresId = Integer.parseInt(input[1]);
-
-        if (explorer3 == null) {
-            System.out.println("game not started");
-            return;
-        }
-        if (input.length != 2) //change to lenght of id of treasure
-        {
-            System.out.println("error invalid cmd structure");
-            return;
-        }
+     public static void testDrop( String[] command) {
 
 
-        try {
-            db.Drop(explorer3, tresId);
-            explorer3 = db.updateExplorer(explorer3);
-            //System.out.println("dropped treasure "+ tresId);
+        // used to capture system.out from function
+        PrintStream originalOut = System.out;
+
+        System.setOut(new PrintStream(new OutputStream() {
+            public void write(int b) {
+            }
+        }));
+
+
+        String[] returnCMD = {"drop","500"};
+        String[] returnCMD = {"drop","102"};
+
+        // changed cmds to grab from move
+        if( cm.drop(command)){
+            cm.drop(returnCMD);
+            System.setOut(originalOut);
             System.out.println("Pass");
-            cm.displayGameState();
-        } catch (Exception e) {
-            System.out.println("error dropping treasure, Fail");
+
+        } else {
+            System.setOut(originalOut);
+            System.out.println("Fail");
         }
+
+
     }
+
 
 }
 
@@ -299,7 +332,6 @@ public class test {
 
 
     
-
 
 
 
