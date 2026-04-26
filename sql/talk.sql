@@ -87,7 +87,7 @@ BEGIN
         ELSIF npc_job_text = 'npc_job' THEN
         message_text := npc_name_text || ':  do i know what im doing'; 
     
-    ELSIF 10 > current_talk_count  THEN
+
 
         ELSIF npc_job_text = 'npc_job' THEN
         message_text := npc_name_text || ': do have any dead wish or what .';

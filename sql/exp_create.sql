@@ -14,7 +14,7 @@ DROP TRIGGER weightCountDefaultZeroTrigger ;
 CREATE TABLE Rooms
 (
 	roomID		NUMBER(6,0)
-,	name		VARCHAR2(10) UNIQUE
+,	name		VARCHAR2(50) UNIQUE
 ,	description	VARCHAR2(255)
 ,	CONSTRAINT PKRoomID PRIMARY KEY (roomID)
 );
