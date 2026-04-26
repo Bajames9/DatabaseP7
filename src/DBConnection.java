@@ -181,11 +181,11 @@ public class DBConnection {
                     return; 
                 }
             }
-            if (!found.next()) {
+            else if(!found.next()) {
                 System.out.println("You were imagining that item"); 
                 return; 
             }
-
+  
             PreparedStatement ps = conn.prepareStatement(
                     "UPDATE TREASURES SET ROOMID = ?, EXPID = null WHERE TRESID = ?");
 
