@@ -69,7 +69,15 @@ public class CommandManager {
             System.out.println("error invalid cmd structure");
             return false;
         }
-        int roomId = Integer.parseInt(input[1]);
+        int roomId; 
+        try {
+            roomId = Integer.parseInt(input[1]);
+        }
+        catch (Exception e) {
+            System.out.println("Please input an integer for a room identifier"); 
+            displayGameState();
+            return false; 
+        }
         ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer.getRoomId());
         if (connectedRooms == null || !connectedRooms.contains(roomId)){
             System.out.println("error room not connected to current room");
@@ -92,7 +100,17 @@ public class CommandManager {
     }
 
     public boolean grab(String[] input){
-        int tresId = Integer.parseInt(input[1]);
+        
+        int tresId; 
+        try {
+            tresId = Integer.parseInt(input[1]);
+        }
+        catch (Exception e) {
+            System.out.println("Please input an integer for a treasure identifier"); 
+            displayGameState();
+            return false; 
+        }
+
 
         if(explorer == null){
             System.out.println("game not started");
@@ -110,13 +128,13 @@ public class CommandManager {
         }
         
        
-        try{
-        boolean success = db.Grab(explorer, tresId);
-        explorer = db.updateExplorer(explorer);
-        System.out.println("Grabbed treasure " + tresId);
-        displayGameState();
-        return success;
-    }
+        try {
+            boolean success = db.Grab(explorer, tresId);
+            explorer = db.updateExplorer(explorer);
+            System.out.println("Grabbed treasure " + tresId);
+            displayGameState();
+            return success;
+        }
         catch (Exception e){
             System.out.println("error grabbing treasure");
         }
@@ -125,7 +143,16 @@ public class CommandManager {
     }
 
     public boolean drop(String[] input){
-        int tresId = Integer.parseInt(input[1]);
+        int tresId; 
+        
+        try {
+            tresId = Integer.parseInt(input[1]);
+        }
+        catch (Exception e) {
+            System.out.println("Please input an integer for a treasure identifier"); 
+            displayGameState();
+            return false; 
+        }
 
         if(explorer == null){
             System.out.println("game not started");
@@ -154,7 +181,16 @@ public class CommandManager {
     }
 
     public boolean talk(String[] input) {
-        int npcId = Integer.parseInt(input[1]); 
+
+        int npcId; 
+        try {
+            npcId = Integer.parseInt(input[1]);
+        }
+        catch (Exception e) {
+            System.out.println("Please input an integer for an npc identifier"); 
+            displayGameState();
+            return false; 
+        }
 
         if(explorer == null){
             System.out.println("game not started");

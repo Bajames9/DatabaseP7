@@ -117,3 +117,5 @@ VALUES(Explorers_SEQ.nextval, 'Kade', 'Kade', 101, 0, 0);
 
 INSERT INTO NPCS(NPCID, TYPE, ROOMID, NAME)
 VALUES (101, 'WIZARD', 105, 'Tim the Enchanter'); 
+
+COMMIT; 
