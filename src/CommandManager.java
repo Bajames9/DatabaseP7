@@ -78,7 +78,7 @@ public class CommandManager {
         try{
             db.Move(explorer, roomId);
             explorer = db.updateExplorer(explorer);
-            System.out.println("moved to room "+ roomId);
+            System.out.println("Moved to room "+ roomId);
             displayGameState();
             return true;
         }
