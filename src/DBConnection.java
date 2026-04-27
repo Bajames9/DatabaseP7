@@ -21,8 +21,8 @@ public class DBConnection {
 
 
         String url = "jdbc:oracle:thin:@worf.radford.edu:1521/ITEC3.radford.edu";
-        String user = "djuilfs";
-        String password = "n2O4XI7USr2d2c8BmObb";
+        String user = "bjdavis";
+        String password = "23179001243927B#b";
 
 
         try {
