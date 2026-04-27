@@ -14,7 +14,7 @@ Insert Into Rooms(roomid, Name, Description)
 VALUES (109, 'CR 142', 'A state of the art cyber security lab');
 
 Insert Into Rooms(roomid, Name, Description)
-VALUES (111, 'End Room', 'A black hole rapidly eating matter..');
+VALUES (111, 'End Room', 'A black hole rapidly expands from the center of the room.');
 
 INSERT INTO Connections(room1, room2) 
 VALUES (101, 105);
@@ -114,3 +114,6 @@ VALUES(Explorers_SEQ.nextval, 'Aiden', 'Aiden', 101, 0, 0);
 
 Insert Into Explorers(Expid, Name, Username, Room_ID, Bag_Wt, Bag_Cnt)
 VALUES(Explorers_SEQ.nextval, 'Kade', 'Kade', 101, 0, 0);
+
+INSERT INTO NPCS(NPCID, TYPE, ROOMID, NAME)
+VALUES (101, 'WIZARD', 105, 'Tim the Enchanter'); 

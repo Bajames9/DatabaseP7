@@ -78,7 +78,7 @@ public class CommandManager {
         try{
             db.Move(explorer, roomId);
             explorer = db.updateExplorer(explorer);
-            //System.out.println("moved to room "+ roomId);
+            System.out.println("moved to room "+ roomId);
             displayGameState();
             return true;
         }
@@ -113,6 +113,7 @@ public class CommandManager {
         try{
         boolean success = db.Grab(explorer, tresId);
         explorer = db.updateExplorer(explorer);
+        System.out.println("Grabbed treasure " + tresId);
         displayGameState();
         return success;
     }
@@ -138,18 +139,47 @@ public class CommandManager {
         
        
         try{
-        boolean success = db.Drop(explorer, tresId);
-        explorer = db.updateExplorer(explorer);
-        //System.out.println("dropped treasure "+ tresId);
-        displayGameState();
-        return success;
-    }
+            boolean success = db.Drop(explorer, tresId);
+            explorer = db.updateExplorer(explorer);
+            System.out.println("Dropped treasure "+ tresId);
+            displayGameState();
+            return success;
+        }
         catch (Exception e){
             System.out.println("error dropping treasure");
          }
 
 
         return false;
+    }
+
+    public boolean talk(String[] input) {
+        int npcId = Integer.parseInt(input[1]); 
+
+        if(explorer == null){
+            System.out.println("game not started");
+            return false;
+        }
+
+        if (input.length != 2) //change to lenght of id of treasure
+         {
+            System.out.println("error invalid cmd structure");
+            return false;
+        }
+        String type = db.talk(explorer, npcId);
+        if (type.equals("Wizard")) {
+            //if NPC IS A WIZARD, HE'S A JERK. He makes you drop all your stuff and teleports you to the first room
+            System.out.println("You feel as if you are being turned inside out."); 
+
+            ArrayList<Treasure> explorerBag = db.getTreasuresForExplorer(explorer);
+            for (Treasure t: explorerBag) {
+                db.Drop(explorer, t.getTresID()); 
+            }
+            db.Move(explorer, 111); 
+            displayGameState();
+            return true; 
+        }
+        return false; 
     }
 
     public void displayGameState() {
@@ -164,6 +194,8 @@ public class CommandManager {
         ArrayList<Treasure> roomTreasures = db.getTreasuresForRoom(explorer.getRoomId());
         ArrayList<Integer> connectedRooms = db.getConnectedRooms(explorer.getRoomId());
         System.out.println(explorer.getName()+" is in room (" + explorer.getRoomId()+")");
+        ArrayList<NPC> npcs = db.getNPCsForRoom(explorer.getRoomId()); 
+
         System.out.println("Bag Weight: " + explorer.getBagWt() + " Bag Count: " + explorer.getBag_cnt()); 
         
         System.out.println("\tTreasures");
@@ -174,11 +206,18 @@ public class CommandManager {
         }
         System.out.println("\n");
         System.out.println("Room "+explorer.getRoomId());
+
         System.out.println("\tTreasures");
         if (roomTreasures != null){
         for(Treasure t:roomTreasures){
             System.out.println("\t\t" + t.getName() + "("+ t.getTresID()+") VAL:" + t.getValue() + " WT:" + t.getWeight());
+            }
         }
+        System.out.println("\tNPCS");
+        if (npcs != null) {
+            for (NPC n : npcs) {
+                System.out.println("\t\t" + n.getName() + " (" + n.getNpcId() + ") stands in the room.");
+            }
         }
 
         StringBuilder connections = new StringBuilder();
@@ -189,8 +228,6 @@ public class CommandManager {
             }
         }
         System.out.println(connections);
-
-
     }
     /*
     public void talk(String[] input) {

@@ -21,8 +21,8 @@ public class DBConnection {
 
 
         String url = "jdbc:oracle:thin:@worf.radford.edu:1521/ITEC3.radford.edu";
-        String user = "bjdavis";
-        String password = "23179001243927B#b";
+        String user = "djuilfs";
+        String password = "n2O4XI7USr2d2c8BmObb";
 
 
         try {
@@ -172,6 +172,9 @@ public class DBConnection {
 
         try {
 
+               
+
+
             //we need to make sure the item is actually in the room its in, right now I can force move items to me.
 
             PreparedStatement find = conn.prepareStatement("SELECT expID FROM TREASURES WHERE TRESID = ?");
@@ -180,16 +183,16 @@ public class DBConnection {
 
             ResultSet found = find.executeQuery(); 
             
-            if (found.next()) {
-                int tresEXPID = found.getInt("EXPID"); 
-                if (tresEXPID != explorer.getExpID()) {
-                    System.out.println("You don't have that item");
-                    return false;
-                }
-            }
-            else if(!found.next()) {
+
+            if(!found.next()) {
                 System.out.println("You were imagining that item");
                 return false;
+            }
+
+            int tresEXPID = found.getInt("EXPID"); 
+            if (tresEXPID != explorer.getExpID()) {
+                    System.out.println("You don't have that item");
+                    return false;
             }
   
             PreparedStatement ps = conn.prepareStatement(
@@ -209,21 +212,36 @@ public class DBConnection {
 
             int weight = 0; 
 
-            System.out.println(tresID); 
             if (rs.next()) weight = rs.getInt("WEIGHT"); 
             else {
                 System.out.println("ERROR IN QUERY");
                 return false;
             }
-   
+
+            //using for update to lock the row to remove race condition with two drops too close together
+            PreparedStatement lock = conn.prepareStatement(" SELECT BAG_WT, BAG_CNT FROM EXPLORERS WHERE EXPID = ? FOR UPDATE");
+            
+            lock.setInt(1, explorer.getExpID()); 
+            
+            ResultSet locked = lock.executeQuery(); 
+            if (!locked.next()) {
+                conn.rollback();
+                return false; 
+            }
+
+            int bagwt = locked.getInt("BAG_WT");
+            int bagcnt = locked.getInt("BAG_CNT"); 
+
+            //if it doesn't exist, rollback. 
+
 
             PreparedStatement ps2 = conn.prepareStatement(
                 "UPDATE Explorers SET BAG_WT = ?, BAG_CNT = ? WHERE EXPID = ?"
             );
 
 
-            ps2.setInt(1, explorer.getBagWt()- weight);
-            ps2.setInt(2, explorer.getBag_cnt()-1);
+            ps2.setInt(1, bagwt -  weight);
+            ps2.setInt(2, bagcnt - 1);
             ps2.setInt(3, explorer.getExpID()); 
 
             ps2.executeUpdate();
@@ -264,8 +282,6 @@ public class DBConnection {
 
                 ));
 
-
-
             }
 
             if (!bag.isEmpty()){
@@ -280,7 +296,33 @@ public class DBConnection {
         return null;
 
     }
+    public ArrayList<NPC> getNPCsForRoom(int roomId) {
 
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM NPCS WHERE ROOMID = ?"); 
+
+            ps.setInt(1, roomId);
+            
+            ResultSet rs = ps.executeQuery(); 
+
+            ArrayList<NPC> npcs = new ArrayList<>(); 
+
+            while(rs.next()){
+                npcs.add(new NPC(
+                    rs.getInt("NPCID"),
+                    rs.getString("NAME"),
+                    rs.getInt("ROOMID"),
+                    rs.getString("TYPE")));
+            } 
+            return npcs; 
+
+        }
+        catch (SQLException e) {
+            System.out.println(e); 
+            return null; 
+        }
+    }
+    
     public ArrayList<Treasure> getTreasuresForRoom(int roomId) {
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM TREASURES WHERE ROOMID = ?");
@@ -353,26 +395,35 @@ public class DBConnection {
 
         return null;
     }
-    /*
-    public String TalkNpc(Explorer explorer, int npcId) throws SQLException 
+    
+    public String talk(Explorer explorer, int npcId)
     {
 
-        String message = "";
+    
+        try {
+        PreparedStatement ps = conn.prepareStatement("SELECT ROOMID, TYPE FROM NPCS WHERE NPCID = ?");
 
-        CallableStatement rs= conn.prepareCall("{call talk_to_npc(?, ?, ?)}");
+        ps.setInt(1, npcId);
 
-        rs.setInt(1, explorer.getExpID());
-        rs.setInt(2, npcId);
-        rs.registerOutParameter(3, Types.VARCHAR);
+        ResultSet rs = ps.executeQuery(); 
+            
+            if (rs.next()) {
+                if (explorer.getRoomId() != rs.getInt("ROOMID")) {
+                    return "Who are you talking to?";
+                }
+                else return rs.getString("TYPE"); 
+            }
+            else return "They must have been a figment of your imagination"; 
 
-        rs.execute();
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return "ERROR"; 
+        }
 
-        message = rs.getString(3);
 
-        rs.close();
 
-        return message;
     }
-*/
+
 
 }

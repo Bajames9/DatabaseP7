@@ -48,12 +48,9 @@ public class InputManager {
                 case "drop":
                     command.drop(input);
                     break;
-                /*
                 case "talk":
                     command.talk(input);
-                    break
-                
-                */
+                    break;
 
                 default:
 
