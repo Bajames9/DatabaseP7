@@ -191,8 +191,8 @@ public class CommandManager {
             displayGameState();
             return false; 
         }
-
-        if(explorer == null){
+        System.out.println("npc id: " + npcId); 
+        if (explorer == null){
             System.out.println("game not started");
             return false;
         }
@@ -203,7 +203,8 @@ public class CommandManager {
             return false;
         }
         String type = db.talk(explorer, npcId);
-        if (type.equals("Wizard")) {
+        System.out.println(type); 
+        if (type.equalsIgnoreCase("WIZARD")) {
             //if NPC IS A WIZARD, HE'S A JERK. He makes you drop all your stuff and teleports you to the first room
             System.out.println("You feel as if you are being turned inside out."); 
 
